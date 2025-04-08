@@ -2,6 +2,7 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding, utils
 from cryptography.exceptions import InvalidSignature
 import os
+import time
 
 class DigitalSignature:
     def __init__(self):
@@ -85,6 +86,8 @@ class DigitalSignature:
             return False
     
     def sign_file(self, file_path, private_key, hash_algorithm='SHA256'):
+        """Sign a file using private key and measure time taken"""
+        start_time = time.time()  # Start timing
         """
         Sign a file using private key
         :param file_path: Path to file
@@ -127,9 +130,14 @@ class DigitalSignature:
         else:
             raise ValueError("Unsupported key type")
         
+        end_time = time.time()  # End timing
+        duration = end_time - start_time
+        print(f"Time taken to sign file with {private_key.__class__.__name__}: {duration:.4f} seconds")
+
         return signature
     
     def verify_file_signature(self, file_path, signature, public_key, hash_algorithm='SHA256'):
+        start_time = time.time() 
         """
         Verify a file signature using public key
         :param file_path: Path to file
@@ -173,9 +181,17 @@ class DigitalSignature:
                 )
             else:
                 raise ValueError("Unsupported key type")
+            
+            end_time = time.time()  # End timing
+            duration = end_time - start_time
+            print(f"Time taken to verify signature with {public_key.__class__.__name__}: {duration:.4f} seconds")
+
             return True
         except InvalidSignature:
             return False
+        
+
+
     
     def save_signature(self, signature, filename):
         """Save signature to file"""

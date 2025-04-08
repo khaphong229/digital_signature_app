@@ -58,7 +58,7 @@ class VerifyTab:
             self.signature_path.set(filename)
     
     def verify_signature(self):
-        """Verify the signature of the selected file"""
+        """Verify the signature of the selected file and display time taken"""
         try:
             file_path = self.file_path.get()
             signature_path = self.signature_path.get()

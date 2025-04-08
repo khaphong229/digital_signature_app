@@ -50,7 +50,7 @@ class SignTab:
             self.file_path.set(filename)
     
     def sign_file(self):
-        """Sign the selected file"""
+        """Sign the selected file and display time taken"""
         try:
             file_path = self.file_path.get()
             if not file_path or not os.path.exists(file_path):
