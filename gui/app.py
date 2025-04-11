@@ -12,7 +12,7 @@ class DigitalSignatureApp:
         
         # Apply a basic theme
         style = ttk.Style()
-        style.theme_use('clam')  # You can try 'alt', 'default', 'classic', 'clam'
+        style.theme_use('classic')  # You can try 'alt', 'default', 'classic', 'clam'
         
         # Create notebook (tabs container)
         self.notebook = ttk.Notebook(root)

@@ -1,3 +1,4 @@
+
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import os
@@ -35,7 +36,15 @@ class VerifyTab:
         self.signature_path = tk.StringVar()
         ttk.Entry(sig_frame, textvariable=self.signature_path, width=50).pack(side='left', padx=5, fill='x', expand=True)
         ttk.Button(sig_frame, text="Chọn", command=self.select_signature).pack(side='left', padx=5)
-        
+
+        # Hash algorithm selection
+        hash_frame = ttk.Frame(verify_frame)
+        hash_frame.pack(fill='x', padx=5, pady=5)
+        ttk.Label(hash_frame, text="Thuật toán hash:").pack(side='left', padx=5)
+        self.hash_algo = tk.StringVar(value="SHA256")
+        hash_algos = ["SHA256", "SHA384", "SHA512"]
+        ttk.Combobox(hash_frame, textvariable=self.hash_algo, values=hash_algos, width=10).pack(side='left', padx=5)
+
         # Verify button
         btn_frame = ttk.Frame(verify_frame)
         btn_frame.pack(fill='x', padx=5, pady=5)
@@ -79,7 +88,8 @@ class VerifyTab:
             with open(signature_path, "rb") as f:
                 signature = f.read()
             
-            is_valid = self.signature_tool.verify_file_signature(file_path, signature, public_key)
+            hash_algo = self.hash_algo.get()  # Get the selected hash algorithm
+            is_valid = self.signature_tool.verify_file_signature(file_path, signature, public_key, hash_algorithm=hash_algo)
             if is_valid:
                 messagebox.showinfo("Thành công", "Chữ ký hợp lệ.")
             else:
