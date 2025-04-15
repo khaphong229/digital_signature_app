@@ -1,6 +1,7 @@
 from cryptography.hazmat.primitives.asymmetric import rsa, dsa
 from cryptography.hazmat.primitives import serialization
 import os
+import time
 
 class KeyGenerator:
     def __init__(self):
@@ -9,19 +10,29 @@ class KeyGenerator:
     
     def generate_rsa_keys(self, key_size=2048):
         """Generate a new RSA key pair"""
+        """Sinh cặp khóa RSA mới và đo thời gian."""
+        start_time = time.time()  # Bắt đầu đo thời gian
         self.private_key = rsa.generate_private_key(
             public_exponent=65537,
             key_size=key_size
         )
         self.public_key = self.private_key.public_key()
+        end_time = time.time()  # Kết thúc đo thời gian
+        duration = end_time - start_time
+        print(f"Thời gian sinh khóa RSA: {duration:.4f} giây")
         return self.private_key, self.public_key
     
     def generate_dsa_keys(self, key_size=2048):
         """Generate a new DSA key pair"""
+        """Sinh cặp khóa DSA mới và đo thời gian."""
+        start_time = time.time()  # Bắt đầu đo thời gian
         self.private_key = dsa.generate_private_key(
             key_size=key_size
         )
         self.public_key = self.private_key.public_key()
+        end_time = time.time()  # Kết thúc đo thời gian
+        duration = end_time - start_time
+        print(f"Thời gian sinh khóa DSA: {duration:.4f} giây")
         return self.private_key, self.public_key
     
     def save_private_key(self, filename, password=None):
